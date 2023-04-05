@@ -1,9 +1,7 @@
-import os
 from pynput import keyboard
 import pyperclip
 import time
 import openai
-import tkinter as tk
 
 #OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 OPENAI_API_KEY = "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"
@@ -38,15 +36,6 @@ def fetch_answer_from_openai(prompt, model="gpt-4", messages=None, temperature=0
     result = response['choices'][0]['message']['content'].strip()
     print(f"OpenAI response: {result}")
     return result
-
-# def display_answer(answer):
-#     answer_window = tk.Tk()
-#     answer_window.title('OpenAI Answer')
-
-#     answer_label = tk.Label(answer_window, text=answer, wraplength=400)
-#     answer_label.pack(padx=20, pady=20)
-
-#     answer_window.mainloop()
 
 def on_capture_hotkey():
     selected_text = capture_selected_text()
