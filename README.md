@@ -28,17 +28,7 @@ cd your_repository
 pip install -r requirements.txt
 ```
 
-If you don't have a `requirements.txt` file, create one with the following content:
-
-```
-openai
-pynput
-pyperclip
-tkinter
-```
-
-
-4. Set your OpenAI API key as an environment variable or directly in the script:
+1. Set your OpenAI API key as an environment variable or directly in the script:
 
 ```
 export OPENAI_API_KEY="your_api_key"
@@ -57,11 +47,10 @@ OPENAI_API_KEY = "your_api_key"
 2. The application will print instructions:
     ```
     Application running.
-    Press ctrl+alt+c to capture selected text.
-    Press ctrl+alt+p to process the selected text and get an answer.
+    Press ctrl+alt+c to process the selected text and get an answer.
     ```
-3. Select the text you want to process and press ctrl+alt+c to capture the selected text.
-4. Press ctrl+alt+p to process the selected text, fetch an answer from OpenAI, and copy the answer to your clipboard.
+3. Select the text you want to process and press ctrl+c to copy the selected text.
+4. Press ctrl+alt+c to process the selected text, fetch an answer from OpenAI, and copy the answer to your clipboard.
 5. Press ctrl+v to paste the answer wherever you need it.
 ## License
 This project is licensed under the MIT License. See the `LICENSE` file for details.
