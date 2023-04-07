@@ -1,21 +1,19 @@
+import os
 from pynput import keyboard
+import pyautogui as pya
 import pyperclip
 import time
 import openai
 
-OPENAI_API_KEY = "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"
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 openai.api_key = OPENAI_API_KEY
 
 def capture_selected_text():
-    ctrl_c = keyboard.Controller()
-    ctrl_c.press(keyboard.Key.ctrl)
-    ctrl_c.press('c')
-    time.sleep(0.1)
-    ctrl_c.release('c')
-    ctrl_c.release(keyboard.Key.ctrl)
+    pya.hotkey('ctrl', 'c')
+    time.sleep(.01)  # ctrl-c is usually very fast but your program may execute faster
     return pyperclip.paste()
 
-def fetch_answer_from_openai(prompt, model="gpt-4", messages=None, temperature=0.5, max_tokens=100):
+def fetch_answer_from_openai(prompt, model="gpt-4", messages=None, temperature=0.5, max_tokens=2000):
     print(f"Sending prompt to OpenAI: {prompt}")
 
     if messages is None:
