@@ -9,8 +9,8 @@ OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 openai.api_key = OPENAI_API_KEY
 
 def capture_selected_text():
-    pya.hotkey('ctrl', 'c')
-    time.sleep(.01)  # ctrl-c is usually very fast but your program may execute faster
+    pya.hotkey('cmd', 'c')
+    time.sleep(.01)  # cmd-c is usually very fast but your program may execute faster
     return pyperclip.paste()
 
 def fetch_answer_from_openai(prompt, model="gpt-4", messages=None, temperature=0.5, max_tokens=2000):
