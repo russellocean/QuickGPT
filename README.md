@@ -14,12 +14,12 @@ This project is a simple question-answering assistant that captures selected tex
 1. Clone the repository or download the project files:
 
 ```
-git clone https://github.com/russellocean/QuickAI.git
+git clone https://github.com/russellocean/QuickGPT.git
 ```
 
 2. Change into the project directory:
 ```
-cd your_repository
+cd QuickGPT
 ```
 
 3. Install the required Python packages:
