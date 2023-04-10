@@ -1,4 +1,4 @@
-# OpenAI Question Answering Assistant
+# QuickGPT
 
 This project is a simple question-answering assistant that captures selected text and fetches an answer from OpenAI's GPT-4 model. The answer is copied to your clipboard, making it easy to paste and use.
 
@@ -42,7 +42,7 @@ OPENAI_API_KEY = "your_api_key"
 ## Usage
 1. Run the script:
    ```python
-   python openai_question_answering.py
+   python quickgpt.py
    ```
 2. The application will print instructions:
     ```
