@@ -8,6 +8,10 @@ import openai
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 openai.api_key = OPENAI_API_KEY
 
+# Read the content from ai_prompt.txt and store it in AI_PROMPT
+with open("ai_prompt.txt", "r") as f:
+    AI_PROMPT = f.read().strip()
+
 def capture_selected_text():
     pya.hotkey('cmd', 'c')
     time.sleep(.01)  # cmd-c is usually very fast but your program may execute faster
@@ -18,7 +22,7 @@ def fetch_answer_from_openai(prompt, model="gpt-4", messages=None, temperature=0
 
     if messages is None:
         messages = [
-            {"role": "system", "content": "You are an assistant designed to answer questions. If the question is multiple choice you will only answer with the answer. If the answer is free response you will answer with all steps, and if the question is fill in the blanks, you will only answer with the blanks."},
+            {"role": "system", "content": AI_PROMPT},
             {"role": "user", "content": prompt},
         ]
 
