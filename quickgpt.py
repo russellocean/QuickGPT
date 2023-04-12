@@ -3,45 +3,29 @@ import pyautogui as pya
 import pyperclip
 import time
 
+# Import the ask_agent function from agent_utils module
 from agent_utils import ask_agent
 
-# Read the content from ai_prompt.txt and store it in AI_PROMPT
-with open("ai_prompt.txt", "r") as f:
-    AI_PROMPT = f.read().strip()
-
 def capture_selected_text():
+    # Copy selected text to clipboard using keyboard shortcut
     pya.hotkey('cmd', 'c')
     time.sleep(.01)  # cmd-c is usually very fast but your program may execute faster
+    # Return the content of the clipboard
     return pyperclip.paste()
 
-def fetch_answer_from_openai(prompt, model="gpt-4", messages=None, temperature=0.5, max_tokens=2000):
-    print(f"Sending prompt to OpenAI: {prompt}")
-
-    if messages is None:
-        messages = [
-            {"role": "system", "content": AI_PROMPT},
-            {"role": "user", "content": prompt},
-        ]
-
-    response = openai.ChatCompletion.create(
-        model=model,
-        messages=messages,
-        temperature=temperature,
-        max_tokens=max_tokens,
-    )
-
-    result = response['choices'][0]['message']['content'].strip()
-    print(f"OpenAI response: {result}")
-    return result
-    
 def on_process_hotkey():
+    # Capture the selected text
     selected_text = capture_selected_text()
     print(f'Selected text: {selected_text}')
+
+    # Fetch answer using the ask_agent function
     answer = ask_agent(selected_text)
-    #answer = fetch_answer_from_openai(selected_text)
+
+    # Copy the answer to the clipboard
     pyperclip.copy(answer)
     print("Answer copied to clipboard. Press ctrl+v to paste.")
 
+# Set up hotkeys and listener
 with keyboard.GlobalHotKeys({'<ctrl>+<alt>+c': on_process_hotkey}) as hotkeys_listener:
     print('Application running.')
     print('Press ctrl+alt+c to process the selected text and get an answer.')

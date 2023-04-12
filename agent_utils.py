@@ -1,25 +1,32 @@
 import os
 
+# Import necessary components from langchain
 from langchain import LLMChain
 from langchain.chat_models import ChatOpenAI
 from langchain.utilities.wolfram_alpha import WolframAlphaAPIWrapper
 from langchain.utilities import GoogleSerperAPIWrapper
 from langchain.agents import Tool, AgentExecutor, LLMSingleActionAgent
 
+# Import custom components
 from agent_components import CustomPromptTemplate, CustomOutputParser
 
+# Import OpenAI API
 import openai
 
+# Retrieve API keys and app ID from environment variables
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 SERPER_API_KEY = os.environ.get("SERPER_API_KEY")
 WOLFRAM_ALPHA_APPID = os.environ.get("WOLFRAM_ALPHA_APPID")
 
+# Set OpenAI API key
 openai.api_key = OPENAI_API_KEY
 
 def setup_agent():
+    # Initialize API wrappers
     search = GoogleSerperAPIWrapper()
     wolfram = WolframAlphaAPIWrapper()
 
+    # Define available tools
     tools = [
         Tool(
             name="Search",
@@ -33,7 +40,7 @@ def setup_agent():
         )
     ]
     
-    # Set up the base template
+    # Set up the base template for the agent
     template = """Answer the following questions as best you can, but speaking as a pirate might speak. You have access to the following tools:
 
     {tools}
@@ -58,6 +65,7 @@ def setup_agent():
     Question: {input}
     {agent_scratchpad}"""
     
+    # Set up the custom prompt template
     prompt = CustomPromptTemplate(
         template=template,
         tools=tools,
@@ -66,13 +74,19 @@ def setup_agent():
         input_variables=["input", "intermediate_steps"]
     )
     
+    # Initialize custom output parser
     output_parser = CustomOutputParser()
     
+    # Set up the ChatOpenAI instance
     llm = ChatOpenAI(temperature=0.5, model="gpt-4")
 
+    # Set up the LLMChain
     llm_chain = LLMChain(llm=llm, prompt=prompt)
     
+    # Extract tool names for the agent
     tool_names = [tool.name for tool in tools]
+    
+    # Set up the LLMSingleActionAgent
     agent = LLMSingleActionAgent(
         llm_chain=llm_chain, 
         output_parser=output_parser,
@@ -80,11 +94,14 @@ def setup_agent():
         allowed_tools=tool_names
     )
     
+    # Set up the AgentExecutor
     agent_executor = AgentExecutor.from_agent_and_tools(agent=agent, tools=tools, verbose=True)
 
     return agent_executor
 
+# Initialize the agent_executor
 agent_executor = setup_agent()
 
 def ask_agent(message):
+    # Run the agent with the provided message
     return agent_executor.run(message)

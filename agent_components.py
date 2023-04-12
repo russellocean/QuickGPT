@@ -28,8 +28,6 @@ class CustomPromptTemplate(BaseChatPromptTemplate):
         kwargs["tools"] = "\n".join([f"{tool.name}: {tool.description}" for tool in self.tools])
         # Create a list of tool names for the tools provided
         kwargs["tool_names"] = ", ".join([tool.name for tool in self.tools])
-        # Add chat history to the prompt
-        kwargs["chat_history"] = kwargs.pop("chat_history")
         formatted = self.template.format(**kwargs)
         return [HumanMessage(content=formatted)]
     
