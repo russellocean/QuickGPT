@@ -13,27 +13,6 @@ def capture_selected_text():
     pya.hotkey('cmd', 'c')
     time.sleep(.01)  # cmd-c is usually very fast but your program may execute faster
     return pyperclip.paste()
-
-def fetch_answer_from_openai(prompt, model="gpt-4", messages=None, temperature=0.5, max_tokens=2000):
-    print(f"Sending prompt to OpenAI: {prompt}")
-
-    if messages is None:
-        messages = [
-            {"role": "system", "content": AI_PROMPT},
-            {"role": "user", "content": prompt},
-        ]
-
-    response = openai.ChatCompletion.create(
-        model=model,
-        messages=messages,
-        temperature=temperature,
-        max_tokens=max_tokens,
-    )
-
-    result = response['choices'][0]['message']['content'].strip()
-    print(f"OpenAI response: {result}")
-    return result
-    
 def on_process_hotkey():
     selected_text = capture_selected_text()
     print(f'Selected text: {selected_text}')
